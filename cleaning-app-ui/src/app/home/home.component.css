@@ -1,0 +1,128 @@
+.pagination.disabled {
+    color: gray;
+    cursor: not-allowed;
+    text-decoration: underline;
+}
+
+.tableDiv {
+    height: 31rem;
+    max-height: 31rem;
+    overflow-y: auto;
+}
+
+.paginationClass li a {
+    outline: none;
+    box-shadow: none;
+    color: #494a4d;
+}
+
+.paginationClass .active {
+    outline: none;
+    box-shadow: none;
+    color: white !important;
+    background: #56585c !important;
+    border: #56585c;
+    margin-top: 1px;
+}
+
+.paginationClass li a:hover {
+    background: #56585c;
+    color: white;
+}
+
+.idClass {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.idClass:hover {
+    text-decoration: underline;
+}
+
+.pageSizeSelect {
+    padding: 0;
+    margin-right: 1rem;
+    height: 2.5rem;
+}
+
+.countryCol {
+    display: flex;
+    justify-content: space-between;
+}
+
+.deleteImg {
+    cursor: pointer;
+    margin-left: 0.5rem;
+}
+
+.editImg {
+    cursor: pointer;
+}
+
+.big {
+    width: 30rem;
+    height: 30rem;
+    background-color: red;
+    margin-top: 10rem;
+  }
+
+  .medium {
+    width: 21rem;
+    height: 21rem;
+    background-color: orange;
+  }
+
+  .small {
+    width: 15rem;
+    height: 15rem;
+    background-color: white;
+  }
+
+  .circle {
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  /* same size as .big so the SVG overlays perfectly */
+  .svg-text-big {
+    position: absolute;
+    top: 1rem;
+    left: 0;
+    width: 30rem;
+    height: 30rem;
+    pointer-events: none;
+  }
+
+  .svg-text-medium {
+    position: absolute;
+    top: 4px;
+    left: 0;
+    width: 21rem;
+    height: 21rem;
+    pointer-events: none;
+  }
+
+  .svg-text-small {
+    position: absolute;
+    top: 1rem;
+    left: 0;
+    width: 15rem;
+    height: 15rem;
+    pointer-events: none;
+  }
+
+  .loading-message, .error-message {
+    padding: 20px;
+    text-align: center;
+    font-size: 1.2em;
+  }
+  .error-message {
+    color: red;
+  }
+
+  .isAllowdToClick {
+    cursor: not-allowed;
+  }

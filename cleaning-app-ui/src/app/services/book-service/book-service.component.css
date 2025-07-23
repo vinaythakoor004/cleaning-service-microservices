@@ -1,0 +1,16 @@
+.bookserviceRow {
+  margin-top: 10rem;
+}
+
+.bookserviceCol {
+    /* margin-bottom: 15rem; */
+}
+
+.bookserviceText {
+    display: grid;
+    margin-left: 3rem;
+}
+
+.bookbtn {
+    width: fit-content;
+}

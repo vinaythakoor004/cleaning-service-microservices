@@ -1,0 +1,14 @@
+{
+  "/api": {
+      "target": "http://localhost:8087",
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "debug"
+    },
+    "/ws-booking": {
+      "target": "http://localhost:8087",
+      "ws": true,
+      "secure": false,
+      "logLevel": "debug"
+    }
+}

@@ -1,0 +1,31 @@
+.planRow {
+    margin-top: 6rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.planCol {
+    display: grid;
+    justify-items: center;
+    width: 31%;
+    margin-top: 2rem;
+    border: 1px solid black;
+    border-radius: 0.3rem;
+}
+
+.planCol > span {
+    margin: 0.5rem;
+}
+
+.weeklyPlan {
+    font-size: 1.5rem;
+}
+
+.bestValue {
+    background: black;
+    color: white;
+    padding: 0.3rem;
+    border-radius: 3px;
+    position: absolute;
+    margin-top: -15px;
+}

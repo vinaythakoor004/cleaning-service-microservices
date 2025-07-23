@@ -1,0 +1,39 @@
+<div class="container contactDiv">
+    <p class="mb-2 openSansRegular" [innerHTML]="'contactInfo' | translate"></p>
+    <hr class="mt-5">
+
+    <form class="mt-5 contactForm" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+            <label for="exampleInputLastname" class="form-label openSansRegular">{{ "firstNameRequired" | translate }}</label>
+            <input type="text" class="form-control" autocomplete="off" id="exampleInputLastname" formControlName="firstName">
+            <div *ngIf="contactForm.get('firstName')?.invalid && contactForm.get('firstName')?.touched" class="form-text errorMsg">
+                {{ "FirstNameIsRequired" | translate }}
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputFirstname" class="form-label openSansRegular">{{ "lastNameRequired" | translate }}</label>
+            <input type="text" class="form-control" autocomplete="off" id="exampleInputFirstname" formControlName="lastName">
+            <div *ngIf="contactForm.get('lastName')?.invalid && contactForm.get('lastName')?.touched" class="form-text errorMsg">
+                {{ "LastNameIsRequired" | translate }}
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label openSansRegular">{{ "emailRequired" | translate }}</label>
+            <input type="email" class="form-control" autocomplete="off" id="exampleInputEmail1" formControlName="email"
+                aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text openSansRegular">{{ "emailShare" | translate }}</div>
+            <div *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched" class="form-text errorMsg">
+                {{ "emailIsRequired" | translate }}
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputSubject" class="form-label openSansRegular">{{ "subject" | translate }}</label>
+            <input type="text" class="form-control" autocomplete="off" id="exampleInputSubject" formControlName="subject">
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputMessage" class="form-label openSansRegular">{{ "yourMessage" | translate }}</label>
+            <textarea type="text" class="form-control message" autocomplete="off" id="exampleInputMessage" formControlName="message"></textarea>
+        </div>
+        <button type="submit" class="btn btn-secondary openSansRegular">{{ "submit" | translate }}</button>
+    </form>
+</div>

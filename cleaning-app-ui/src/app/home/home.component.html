@@ -1,0 +1,87 @@
+<div class="container mt-4">
+  <div *ngIf="isLoading" class="spinnerDiv">
+    <mat-spinner></mat-spinner>
+  </div>
+  <app-search [allBookingData]="allBookingData" [bookingData]="bookingData" (searchEvent)="getSearch($event)"></app-search>
+  <!-- <div class="main-content">
+  <h1>Booking Dashboard</h1>
+
+  <app-bubble-chart [bookingData]="allBookingData"></app-bubble-chart>
+
+  <div *ngIf="isLoading" class="loading-message">
+    Loading booking data...
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+</div> -->
+
+  <div *ngIf="bookingData.length" class="tableDiv">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th class="text-center" scope="col" title="Click on id to see user details"><span title="Click on id to see user details">#</span></th>
+          <th scope="col">Name</th>
+          <th scope="col">Service Name</th>
+          <th scope="col">Time</th>
+          <th scope="col">Price</th>
+          <th scope="col">Booking date</th>
+          <th scope="col">Country</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of bookingData; let i = index; trackBy: identify">
+          <th class="text-center" scope="row"><span (click)="openDetailsDialog(item)" class="idClass">{{item.id}}</span></th>
+          <td>{{item.firstName}}&nbsp;{{item.lastName}}</td>
+          <td>{{item.bookingDetails.serviceName}}</td>
+          <td>{{item.bookingDetails.time}}</td>
+          <td>{{item.bookingDetails.price}}</td>
+          <td>{{item.bookingDetails.bookingDateTime | date : "MMM d, y, h:mm a" }}</td>
+          <td class="countryCol">{{item.country}}
+            <div>
+              <img *ngIf="loggedInUser.role == 'Admin'" src="assets/img/edit.svg" (click)="editRow(item)" alt="arrow_back" class="img-fluid deleteImg" /><img *ngIf="loggedInUser.role == 'Admin'" src="assets/img/delete.svg" (click)="deleteRow(item)" alt="arrow_back" class="img-fluid deleteImg" />
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="!bookingData.length">
+    No data available..
+  </div>
+
+
+  <nav *ngIf="pageSize.length" aria-label="Page navigation" class="paginationClass">
+    <select class="form-select-sm pageSizeSelect" aria-label="Default select example" [(ngModel)]="selectedOption" (ngModelChange)="changePageSize($event)">
+      <option *ngFor="let option of options" [value]="option.value">
+        {{ option.viewValue }}
+      </option>
+    </select>
+
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" [class.disabled]="currentPage == 1" href="#" aria-label="Previous" aria-disabled=""
+          (click)="getPageData(currentPage - 1, $event, searchTxt)" [ngClass]="{ isAllowdToClick: currentPage == 1 }">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li #pageNoElement *ngFor="let item of pageSize; let i = index;" class="page-item"><a #pageLink
+          [ngClass]="{ active: currentPage === i+1, isAllowdToClick: currentPage === i+1 }" (click)="getPageData(i+1, $event, searchTxt)"
+          class="page-link" href="#">{{i+1}}</a></li>
+      <li class="page-item">
+        <a class="page-link" [class.disabled]="currentPage == pageSize.length"
+          (click)="getPageData(currentPage + 1, $event, searchTxt)" href="#" aria-label="Next" [ngClass]="{ isAllowdToClick: currentPage == pageSize.length }">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- <cdk-virtual-scroll-viewport itemSize="50" style="height: 400px">
+  <div *cdkVirtualFor="let item of allBookingData">{{ item.firstName }}</div>
+  </cdk-virtual-scroll-viewport> -->
+
+</div>

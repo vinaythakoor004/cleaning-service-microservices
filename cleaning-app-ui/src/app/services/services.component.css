@@ -1,0 +1,22 @@
+.servicesDiv {
+    margin-top: 6rem;
+    /* margin-bottom: 15rem; */
+}
+
+.servicesRow {
+    height: 13rem;
+    display: flex;
+    align-items: center;
+}
+
+.serviceBtnCol {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.serviceNameCol {
+    display: grid;
+    margin: 0;
+    justify-content: space-between;
+}

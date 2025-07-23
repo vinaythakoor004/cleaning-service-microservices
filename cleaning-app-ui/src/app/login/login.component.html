@@ -1,0 +1,36 @@
+<div class="loginClass row w-100">
+    <div  class="col-4">
+        <div *ngFor="let user of userData; let i = index;" class="loginDetails mt-3">
+            <span>Role : {{ user.role }}</span><br/>
+            <span>username: {{ user.username }}</span><br/>
+            <span>password: {{ user.password }}</span><br/><br/>
+            <button type="submit" (click)="setLogin(user)" class="btn btn-secondary openSansRegular">Set</button>
+        </div>
+    </div>
+    <div class="col-4">
+        <span class="openSansSemiBold fs-3 m-auto">{{ "logIn" | translate }}</span>
+        <form class="mt-5 loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+                <label for="exampleInputLastname" class="form-label openSansRegular">{{ "userNameRequired" | translate }}</label>
+                <input type="text" class="form-control" autocomplete="off" id="exampleInputLastname" formControlName="username">
+                <div *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" class="form-text errorMsg text-danger">
+                    {{ "userNameIsRequired" | translate }}
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputLastname" class="form-label openSansRegular">{{ "passwordRequired" | translate }}</label>
+                <input type="text" class="form-control" autocomplete="off" id="exampleInputLastname" formControlName="password">
+                <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="form-text errorMsg text-danger">
+                    {{ "passwordIsRequired" | translate }}
+                </div>
+            </div>
+            <button type="submit" class="btn btn-secondary openSansRegular">{{ "logIn" | translate }}</button>
+            <span *ngIf="!isLoginValid">{{ "usernameOrPasswordIsInvalid" | translate }}</span>
+            <span class="mt-4">
+                {{ "bySigningInYouAccept" | translate }}
+            </span>
+        </form>
+    </div>
+    <div class="col-4"></div>
+</div>
+

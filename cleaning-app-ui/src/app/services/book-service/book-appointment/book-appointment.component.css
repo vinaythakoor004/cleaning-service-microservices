@@ -1,0 +1,54 @@
+.dateRow {
+  /* margin-top: 2rem; */
+}
+
+.appointmentForm {
+  margin-top: 6rem;
+  /* margin-bottom: 16rem; */
+}
+
+.slotbtn {
+  margin: 0.5rem;
+  width: 100%;
+}
+
+.slotDiv {
+}
+
+.datePicker {
+  width: 90%;
+}
+
+.serviceDetailsCol {
+    display: grid;
+    margin: auto;
+    margin-top: unset;
+}
+
+.nextBtn {
+  margin-top: 2rem;
+  width: fit-content;
+}
+
+.appointmentSubmit {
+  width: fit-content;
+}
+
+.userDetailsRow {
+  /* margin-top: 5rem; */
+}
+
+::ng-deep .appointmentTabGroup .mdc-tab {
+  display: none;
+  visibility: hidden;
+}
+
+::ng-deep .appointmentTabGroup .mat-mdc-tab-header {
+  display: none;
+  visibility: hidden;
+}
+
+.backBtn:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

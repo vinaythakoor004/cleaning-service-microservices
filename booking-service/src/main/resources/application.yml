@@ -1,0 +1,44 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: booking-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:4600/booking_db
+    username: postgres
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  cloud:
+    stream:
+      bindings:
+        # Define an output binding named 'bookingEvents-out-0'
+        # This name should match the one used in BookingService.java (streamBridge.send("bookingEvents-out-0", ...))
+        bookingEvents-out-0:
+          destination: booking-topic # The Kafka topic where booking events will be sent
+          contentType: application/json
+    kafka:
+      binder:
+        brokers: localhost:9092 # Address of your Kafka broker
+        # Add other Kafka binder properties if needed (e.g., security, client ID)
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+logging:
+  level:
+    com.yourcompany.bookingservice: DEBUG # Replace with your booking service's base package
+    # If using FeignClient or RestTemplate, add relevant HTTP client logs as well
+    org.springframework.web.client: DEBUG # For RestTemplate
+    feign.Logger: DEBUG # For OpenFeign

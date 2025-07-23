@@ -1,0 +1,21 @@
+.loginClass {
+    margin-top: 6rem;
+    /* margin-bottom: 20rem; */
+}
+
+.loginForm {
+    display: grid;
+    justify-self: center;
+    border: 1px solid black;
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+.loginForm input {
+    outline: none;
+    box-shadow: none;
+}
+
+.loginDetails {
+    margin-left: 4rem;
+}

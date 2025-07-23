@@ -1,0 +1,45 @@
+.aboutDiv {
+    margin-top: 3.92rem;
+    /* margin-bottom: 16rem; */
+}
+.aboutTab {
+    padding: 2rem 2.5rem;
+    width: 30%;
+    border-radius: 1rem;
+    display: flex;
+}
+
+.aboutRow {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    padding: 0rem 10rem;
+    margin-top: 6rem;
+    margin-bottom: 4rem;
+}
+
+.widthFix {
+    width: 100%;
+    margin-top: 7rem;
+    height: 20rem;
+}
+
+.imageCol {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+}
+.aboutCol {
+    display: flex;
+    justify-content: center;
+}
+
+.aboutImg {
+    width: 22rem;
+}
+
+.aboutText {
+    padding:  0rem 10rem 0rem 0rem;
+    margin: auto;
+}

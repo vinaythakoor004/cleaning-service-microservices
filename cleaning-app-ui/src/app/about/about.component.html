@@ -1,0 +1,17 @@
+<div class="aboutDiv">
+    <div class="row widthFix">
+        <!-- <div [appBackgroundColor]="color">{{'Hello world..' | demoPipe}}</div> -->
+        <div class="col-6 imageCol"><img class="img-responsive aboutImg" src="assets/img/about.png">
+        </div>
+        <div class="col-6 aboutText">
+            <h1>{{ "aboutUs" | translate }}</h1><br>
+            <h4>{{ "whatItMeansToBeLemonadeMaker" | translate }}</h4><br>
+            <span [innerHTML]="'WeFastPaced' | translate"></span>
+        </div>
+    </div>
+    <div class="row aboutRow">
+        <div class="col-4 bg-warning aboutTab" [innerHTML]="'callUs' | translate"></div>
+        <div class="col-4 bg-warning aboutTab" [innerHTML]="'location' | translate"></div>
+        <div class="col-4 bg-warning aboutTab" [innerHTML]="'hours' | translate"></div>
+    </div>
+</div>

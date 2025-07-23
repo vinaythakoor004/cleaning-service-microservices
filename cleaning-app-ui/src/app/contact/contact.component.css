@@ -1,0 +1,33 @@
+.contactDiv {
+    margin-bottom: 5rem;
+    margin-top: 6rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
+}
+
+.message {
+    height: 10rem;
+}
+
+.errorMsg {
+    color: red;
+    font-size: 0.8rem;
+}
+
+.contactForm input {
+    outline: none;
+    box-shadow: none;
+}
+
+.contactForm input[type=text]:focus {
+    border: 1px solid gray;
+}
+
+.contactForm textarea {
+    outline: none;
+    box-shadow: none;
+}
+
+.contactForm textarea[type=text]:focus {
+    border: 1px solid gray;
+}

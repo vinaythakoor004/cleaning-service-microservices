@@ -1,0 +1,10 @@
+<div class="container">
+    <div class="row w-100 planRow">
+        <div *ngFor="let plan of plans" class="col-4 planCol" [ngClass]="{ aboutPageCss: plan.name == 'The Bi-Monthly Plan' }">
+            <div *ngIf="plan.name == 'The Bi-Monthly Plan'" class="bestValue">Best Value</div>
+            <span class="mt-5 openSansSemiBold weeklyPlan">{{ plan.name }}</span><span class="openSansBold fs-4">{{ plan.price }}</span><span class="mb-5">{{ plan.period }}</span>
+            <button class="btn btn-outline-warning border border-dark text-dark rounded-1 mb-3" id="searchBtn" type="button"
+                (click)="selectPlan(plan)">Select</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+/* Import Google Font - Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+.bubble-chart-container {
+  width: 100%;
+  height: 800px; /* Adjust height as needed */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden; /* Ensure bubbles stay within bounds */
+}
+
+/* Tooltip styles */
+.tooltip {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px; /* Slightly more rounded corners for aesthetics */
+  font-family: 'Inter', sans-serif; /* Using Inter font */
+  font-size: 14px;
+  font-weight: 400; /* Regular weight for tooltip text */
+  pointer-events: none; /* Allows mouse events to pass through to elements below */
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.2s ease-in-out;
+  z-index: 1000; /* Ensure tooltip appears on top */
+  max-width: 300px; /* Limit tooltip width */
+  line-height: 1.4;
+  text-align: left;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+/* Optional: Styles for interaction feedback */
+circle:hover {
+  cursor: pointer;
+}
+
+/* Styles for pie slices and their hover effect */
+path.pie-slice {
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out; /* Smooth transitions for hover effects */
+  transform-origin: center center; /* Ensure scaling is from the center */
+}
+
+path.pie-slice:hover {
+  cursor: pointer; /* Keep cursor pointer for interactivity */
+  transform: scale(1.05); /* Scale up on hover */
+  opacity: 1; /* Ensure full opacity on hover */
+  /* Removed stroke and stroke-width here, color change will be handled in TS */
+}
+
+/* Styles for labels within bubbles to prevent text overflow */
+.bubble-service-name {
+  font-family: 'Inter', sans-serif; /* Using Inter font */
+  font-weight: 600; /* Semi-bold for service names */
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflowed text */
+  text-overflow: ellipsis; /* Add ellipsis for overflowed text */
+  fill: white; /* Ensure text color is white for contrast against dark bubbles */
+}
+
+.pie-label {
+  font-family: 'Inter', sans-serif; /* Using Inter font */
+  font-weight: 700; /* Bold for pie labels */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  fill: black; /* Ensure text color is black for contrast against pie slices */
+}

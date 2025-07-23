@@ -1,0 +1,17 @@
+<div class="container servicesDiv">
+    <div class="text-center mb-4"><span class="fs-1 openSansBold">{{ "ourServices" | translate }}</span><br><span class="fs-4 openSansRegular">{{ "whatCanWeCleanForYouToday" | translate }}</span></div>
+    <div class="row servicesRow border-top" *ngFor="let item of services">
+        <div class="col-2 serviceImgCol">
+            <img src="assets/img/{{ item.image }}" alt="{{ item.name }}" class="img-fluid serviceImg">
+        </div>
+        <div class="col-6 serviceNameCol">
+            <a #home class="nav-link fs-5 openSansBold" aria-current="page" routerLink="book-service" (click)="checkService(item)">{{ item.name }}</a><br>
+            <span class="fs-6 openSansRegular">{{ item.description }}</span>
+        </div>
+        <div class="col-4 serviceBtnCol">
+            <span class="fs-5 openSansRegular">{{ item.price }}</span>
+            <button class="btn btn-outline-warning rounded-1 border border-dark text-dark" id="searchBtn" type="button" (click)="checkService(item)">{{ "bookService" | translate }}</button>
+        </div>
+    </div>
+    <hr>
+</div>

@@ -1,0 +1,62 @@
+server:
+  port: 8087
+
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: frontend_app_root
+          uri: classpath:/static/
+          predicates:
+            - 'Path=/'
+          filters:
+            - RewritePath=/, /index.html
+
+        - id: frontend_assets
+          uri: classpath:/static/
+          predicates:
+            - 'Path=/**.{ext}'
+          order: -1
+
+        - id: booking-service
+          uri: lb://booking-service
+          predicates:
+            - 'Path=/api/bookings/**'
+          filters:
+            # CRUCIAL CHANGE: This will correctly rewrite:
+            # /api/bookings      -> /bookings
+            # /api/bookings/123  -> /bookings/123
+            - RewritePath=/api/(?<remaining>.*), /${remaining}
+
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - 'Path=/ws-booking/**'
+#          filters:
+            # Apply the same robust pattern for consistency:
+            # /api/ws-booking/info -> /ws-booking/info
+#            - RewritePath=/ws-booking/(?<remaining>.*), /${remaining}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+logging:
+  level:
+    'org.springframework.cloud.gateway': DEBUG
+    'reactor.netty.http.client': DEBUG
+    'org.springframework.web.reactive.function.client': DEBUG
+    'org.springframework.web.cors': DEBUG
+    'org.springframework.web.reactive': DEBUG
+  file:
+    name: gateway-service.log
+    path: ./logs
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 7

@@ -1,0 +1,39 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: notification-service
+
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+
+  cloud:
+    function:
+      definition: handleBookingEvent # Links to your Consumer bean in BookingNotificationService
+    stream:
+      bindings:
+        # Define the input binding for your function
+        handleBookingEvent-in-0: # This is the input channel for the 'handleBookingEvent' function
+          destination: booking-topic # The Kafka topic name
+          group: notification-group # Consumer group for Kafka
+          contentType: application/json # <--- ADD THIS LINE!
+    kafka: # Kafka specific configurations
+      binder:
+        brokers: localhost:9092 # Address of your Kafka broker
+      bindings: # Kafka-specific binding properties
+        handleBookingEvent-in-0: # Reference the same binding name as above
+          consumer:
+            startOffset: latest
+            # Other Kafka consumer specific properties can go here (e.g., autoCommitOffset)
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+logging:
+  level:
+    org.springframework.messaging: DEBUG # For STOMP messages
+    org.springframework.web.socket: DEBUG # For WebSocket core

@@ -1,0 +1,27 @@
+<div class="row checkout">
+    <div class="openSansSemiBold fs-2 mb-4">{{ "checkout" | translate }}</div><hr/>
+    <div class="col-8">
+        <span class="openSansRegular fs-3">1 &nbsp; {{ "user" | translate }}</span><br/><br/>
+        <div class="openSansRegular mb-2">Name : <span class="openSansLight">{{ loginUserDetails.name }}</span></div>
+        <div class="openSansRegular emailClass">Email : <span class="openSansLight">{{ loginUserDetails.email }}</span></div><hr/>
+        <span class="openSansRegular fs-3">2 &nbsp; {{ "payment" | translate }}</span><br/>
+    </div>
+    <div class="col-4 summaryClass">
+        <span class="openSansRegular fs-3">{{ "orderSummary" | translate }}</span><br/>
+        <div class="planName mt-4 mb-2">
+            <span>{{ selectedPlan.name }}</span>
+            <span>{{ selectedPlan.price}}</span>
+        </div>
+        <span class="mb-2 openSansLight">{{ "duration" | translate }}</span><hr/>
+        <div class="planName mt-4 mb-2">
+            <span class="fs-5">{{ "total" | translate }}</span>
+            <span class="fs-5">{{ selectedPlan.price}}</span>
+        </div>
+        <span class="float-end mb-2">{{ selectedPlan.period }}</span><br/><br/>
+        <span class="mb-2 d-flex justify-content-center">{{ "charge" | translate }}</span>
+    </div>
+    <div class="checkoutText">
+        <img src="assets/img/lock.svg" alt="lock" class="img-fluid lockImg">
+        <span class="openSansRegular">{{ "secureCheckout" | translate }}</span>
+    </div>
+</div>
