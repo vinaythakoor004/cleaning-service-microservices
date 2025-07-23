@@ -1,0 +1,21 @@
+# Java
+**/target/
+*.log
+
+# Node
+**/node_modules/
+
+# IDEs
+.idea/
+.vscode/
+.classpath
+.project
+.settings/
+.metadata/
+
+# OS
+.DS_Store
+
+# Logs
+*.log
+logs/
