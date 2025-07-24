@@ -1,0 +1,162 @@
+version: '3.8'
+
+services:
+  # --- Infrastructure Services ---
+  postgres:
+    image: postgres:13-alpine
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: booking_db
+      POSTGRES_USER: ${DB_USERNAME} # From .env file
+      POSTGRES_PASSWORD: ${DB_PASSWORD} # From .env file
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # Persist data
+    ports:
+      - "5432:5432" # Expose Postgres to host on port 5432
+    networks:
+      - cleaning_app_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s # Give it some time to start initially
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.6.1
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    networks:
+      - cleaning_app_network
+
+  kafka:
+    image: confluentinc/cp-kafka:7.6.1
+    container_name: kafka_broker
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+      - "9093:9093" # Internal listener for Kafka clients
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    volumes:
+      - kafka_data:/var/lib/kafka/data # Persist data
+    networks:
+      - cleaning_app_network
+
+  eureka-server:
+    build:
+      context: ./eureka-server # Path to your Eureka server project directory
+      dockerfile: Dockerfile
+    container_name: eureka_server
+    ports:
+      - "8761:8761"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka # Eureka registers with itself
+    networks:
+      - cleaning_app_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+
+  # --- Microservices ---
+  booking-service:
+    build:
+      context: ./booking-service # Path to your booking-service project directory
+      dockerfile: Dockerfile
+    container_name: booking_service
+    ports:
+      - "8081:8081"
+    environment:
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      SPRING_PROFILES_ACTIVE: docker
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      SPRING_CLOUD_KAFKA_BINDER_BROKERS: kafka:9092
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      postgres:
+        condition: service_healthy # Wait for postgres to be healthy
+      eureka-server:
+        condition: service_healthy # Wait for eureka to be healthy
+      kafka:
+        condition: service_started # Kafka doesn't have a simple healthcheck like Postgres
+    networks:
+      - cleaning_app_network
+
+  notification-service:
+    build:
+      context: ./notification-service # Path to your notification-service project directory
+      dockerfile: Dockerfile
+    container_name: notification_service
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      SPRING_CLOUD_KAFKA_BINDER_BROKERS: kafka:9092
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+    networks:
+      - cleaning_app_network
+
+  api-gateway:
+    build:
+      context: ./gateway-service # Path to your api-gateway project directory
+      dockerfile: Dockerfile
+    container_name: api_gateway
+    ports:
+      - "8087:8087"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+    depends_on:
+      eureka-server:
+        condition: service_healthy # Gateway depends on Eureka to discover other services
+      booking-service:
+        condition: service_started # Ensure booking service is up for API calls
+      notification-service:
+        condition: service_started # Ensure notification service is up for WebSocket
+    networks:
+      - cleaning_app_network
+
+  # --- Angular Frontend ---
+  frontend-app:
+    build:
+      context: ./cleaning-app-ui # Path to your Angular project directory
+      dockerfile: Dockerfile
+    container_name: frontend_app
+    ports:
+      - "4200:4200"
+    networks:
+      - cleaning_app_network
+    depends_on:
+      api-gateway:
+        condition: service_started # Frontend needs gateway to be up
+
+volumes:
+  postgres_data:
+  kafka_data:
+
+networks:
+  cleaning_app_network:
+    driver: bridge
