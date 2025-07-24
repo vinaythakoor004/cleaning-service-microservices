@@ -6,15 +6,16 @@ spring:
     name: booking-service
 
   datasource:
-    url: jdbc:postgresql://localhost:4600/booking_db
-    username: postgres
-    password: 1234
+    url: jdbc:postgresql://postgres:5432/booking_db
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
         format_sql: true
@@ -29,16 +30,16 @@ spring:
           contentType: application/json
     kafka:
       binder:
-        brokers: localhost:9092 # Address of your Kafka broker
-        # Add other Kafka binder properties if needed (e.g., security, client ID)
+        # brokers: kafka:9092 # Address of your Kafka broker
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://eureka-server:8761/eureka
 logging:
   level:
-    com.yourcompany.bookingservice: DEBUG # Replace with your booking service's base package
-    # If using FeignClient or RestTemplate, add relevant HTTP client logs as well
-    org.springframework.web.client: DEBUG # For RestTemplate
-    feign.Logger: DEBUG # For OpenFeign
+    com.cleaningApp.booking_service: DEBUG
+    org.springframework.boot.autoconfigure.jdbc: DEBUG # Show details about JDBC auto-configuration
+    com.zaxxer.hikari: DEBUG # Show HikariCP connection pool details, including the URL
+    org.springframework.jdbc.datasource: DEBUG # For more generic JDBC datasource logging
+    org.hibernate.engine.jdbc.connections.internal: DEBUG # Detailed Hibernate connection logs
