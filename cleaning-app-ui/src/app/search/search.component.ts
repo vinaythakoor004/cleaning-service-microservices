@@ -2,10 +2,12 @@ import { Component, EventEmitter, Input, output, Output } from '@angular/core';
 import { bookingData } from '../home/model/bookingData';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-search',
-  imports: [],
+  imports: [ CommonModule, TranslatePipe ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.css'
 })
@@ -16,6 +18,7 @@ export class SearchComponent {
   private searchSubject = new Subject<string>();
   allbookingDataCopy: Array<bookingData> = [];
   _allBookingData: Array<bookingData> = [];
+  isInValidSearch: boolean = false;
 
   @Input()
   set allBookingData(set: Array<bookingData>) {
@@ -43,6 +46,7 @@ export class SearchComponent {
 
   onInput(e: any): void {
     const val = e?.target?.value || e?.value || "";
+    this.isInValidSearch = val.length && val.length < 3;
     this.searchSubject.next(val.trim());
   }
 

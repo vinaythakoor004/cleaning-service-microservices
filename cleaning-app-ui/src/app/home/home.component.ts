@@ -95,21 +95,21 @@ export class HomeComponent implements OnInit {
     return this.pageSize = [...Array(limit)].map((a, i) => i + 1)
   }
 
-  getPageData(page: number, e?: any, searchTxt?: any): void {
-    if (e) {
+  getPageData(page: number, isSearch: boolean, e?: any, searchTxt?: any): void {
+    if (e && !isSearch) {
       e.preventDefault();
     }
-    if (this.currentPage == page) {
+    if (this.currentPage == page && !isSearch) {
       return;
     }
     this.currentPage = page;
-    this.getServiceData(this.currentPage, searchTxt);
+    this.getServiceData(this.currentPage, this.selectedOption, searchTxt);
   }
 
   getSearch(e: any): void {
     // this.allBookingData = e.allBookingData;
     this.searchTxt = e?.search || "";
-    this.getPageData(1, null, e?.search || "");
+    this.getPageData(1, true, undefined, e?.search || "");
     this.getPageSize(this.totalCount);
   }
 

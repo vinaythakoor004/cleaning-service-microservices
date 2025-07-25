@@ -12,3 +12,10 @@
 .searchBox input[type=text]:focus {
     border: 1px solid gray;
 }
+
+.invalidSearch {
+  flex-basis: 100%;
+  margin-left: 6px;
+  color: red;
+  font-size: 1rem;
+}

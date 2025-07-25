@@ -15,7 +15,7 @@
             (click)="navigatePage($event, 'ex')">ex</a> -->
 
         <!-- <a ></a> -->
-      <button class="nav-link" [matBadge]="notifications.length || 0" matBadgeColor="warn"  [routerLinkActive]="['activeClass']" popovertarget="mydiv"><mat-icon class="img-responsive aboutImg" popovertarget="mydiv">account_circle</mat-icon></button>
+      <button class="account_icon nav-link" [matBadge]="notifications.length || 0" matBadgeColor="warn"  [routerLinkActive]="['activeClass']" popovertarget="mydiv"><mat-icon class="img-responsive aboutImg" popovertarget="mydiv">account_circle</mat-icon></button>
         <a #about *ngIf="!isLoggedIn()" class="nav-link" routerLink="login" [routerLinkActive]="['activeClass']"
             (click)="navigatePage($event, 'login')">Log In</a>
     </header>
