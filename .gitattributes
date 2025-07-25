@@ -1,1 +1,46 @@
-* linguist-detectable=true
+# Set default line endings for text files based on OS (cross-platform compatibility)
+* text=auto
+
+# === Angular Frontend (TypeScript, HTML, SCSS) ===
+# Mark primary Angular/TypeScript source files (usually detected correctly, but good to be explicit)
+*.ts linguist-language=TypeScript
+*.html linguist-language=HTML
+*.scss linguist-language=SCSS
+*.css linguist-language=CSS
+
+# Exclude Angular's compiled and generated files from language statistics
+# The 'dist/' folder contains the compiled Angular application.
+# Map files are source maps for debugging, not source code.
+# Minified JS/CSS are generated.
+/dist/ linguist-generated=true
+*.js.map linguist-generated=true
+*.css.map linguist-generated=true
+*.min.js linguist-generated=true
+*.min.css linguist-generated=true
+
+# Explicitly mark 'node_modules' as vendored code (Linguist usually ignores this by default, but safe to specify)
+/node_modules/ linguist-vendored=true
+
+# === Spring Boot Backend (Java, XML for Maven/Gradle) ===
+# Mark primary Java source files
+*.java linguist-language=Java
+*.xml linguist-language=XML # For Maven POMs, Spring configs
+
+# Exclude Java/Spring Boot compiled and generated files from language statistics
+# The 'target/' folder is for Maven build artifacts.
+# The 'build/' folder is for Gradle build artifacts.
+/target/ linguist-generated=true
+/build/ linguist-generated=true
+*.class linguist-generated=true # If .class files somehow end up in the repo
+
+# === General Project Files ===
+# Common configuration files (often correctly detected, but good to confirm)
+*.json linguist-language=JSON
+*.yml linguist-language=YAML
+*.properties linguist-language=Properties
+
+# Documentation files (prevent them from counting as primary code language)
+README.md linguist-documentation=true
+CHANGELOG.md linguist-documentation=true
+CONTRIBUTING.md linguist-documentation=true
+LICENSE linguist-documentation=true
