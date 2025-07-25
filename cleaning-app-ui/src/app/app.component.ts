@@ -8,11 +8,10 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { MatBadgeModule} from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
 import { WebsocketService } from './home/service/websocket.service';
-import { PopoverModule } from '@ngx-popovers/popover';
-
 @Component({
   selector: 'app-root',
-  imports: [ CommonModule, RouterLink, RouterOutlet, RouterLinkActive, MatTooltipModule, MatBadgeModule, MatIconModule, TranslatePipe, PopoverModule ],
+  imports: [ CommonModule, RouterLink, RouterOutlet, RouterLinkActive, MatTooltipModule, MatBadgeModule, MatIconModule, TranslatePipe ],
+  providers: [ ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

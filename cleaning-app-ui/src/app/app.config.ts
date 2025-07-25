@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { HttpClient, provideHttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
 import {provideTranslateService, TranslateFakeLoader, TranslateLoader } from "@ngx-translate/core";
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { isPlatformBrowser } from '@angular/common';
@@ -26,7 +26,9 @@ export function HttpLoaderFactory(http: HttpClient, platformId: Object) {
 }
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideClientHydration(withEventReplay()), provideHttpClient(),
+  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),
+    // provideClientHydration(withEventReplay()),
+    provideHttpClient(withFetch()),
     provideTranslateService({
        defaultLanguage: 'en',
       loader: {

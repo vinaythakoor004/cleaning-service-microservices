@@ -13,6 +13,7 @@
     "submit": "Submit",
     "ourServices": "Our Services",
     "whatCanWeCleanForYouToday" : "What can we clean for you today",
+    "validSearchText": "Please enter at least 3 characters.",
     "bookService": "Book a Service",
     "serviceDescription": "Service Description",
     "contactDetails": "Contact Details",

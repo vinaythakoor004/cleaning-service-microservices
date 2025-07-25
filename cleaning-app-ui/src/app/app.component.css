@@ -27,6 +27,7 @@
   background-color: white;
   margin-right: 0.2rem;
   margin-top: 4.2rem;
+  width: 20rem;
 }
 
 .closeBtn {
@@ -34,7 +35,8 @@
 }
 
 .closeImg {
-  margin-left: 13rem;
+  display: inline;
+  float: right;
 }
 
 .popover-arrow-wrapper {
@@ -61,7 +63,7 @@
   border-right: 20px solid transparent;
   border-bottom: 20px solid white;
   margin-top: -23px;
-  margin-left: 11.5rem;
+  margin-left: 16.3rem;
 }
 
 .logoutBtn {

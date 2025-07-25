@@ -64,16 +64,16 @@
     <ul class="pagination">
       <li class="page-item">
         <a class="page-link" [class.disabled]="currentPage == 1" href="#" aria-label="Previous" aria-disabled=""
-          (click)="getPageData(currentPage - 1, $event, searchTxt)" [ngClass]="{ isAllowdToClick: currentPage == 1 }">
+          (click)="getPageData(currentPage - 1, false, $event, searchTxt)" [ngClass]="{ isAllowdToClick: currentPage == 1 }">
           <span aria-hidden="true">&laquo;</span>
         </a>
       </li>
       <li #pageNoElement *ngFor="let item of pageSize; let i = index;" class="page-item"><a #pageLink
-          [ngClass]="{ active: currentPage === i+1, isAllowdToClick: currentPage === i+1 }" (click)="getPageData(i+1, $event, searchTxt)"
+          [ngClass]="{ active: currentPage === i+1, isAllowdToClick: currentPage === i+1 }" (click)="getPageData(i+1, false, $event, searchTxt)"
           class="page-link" href="#">{{i+1}}</a></li>
       <li class="page-item">
         <a class="page-link" [class.disabled]="currentPage == pageSize.length"
-          (click)="getPageData(currentPage + 1, $event, searchTxt)" href="#" aria-label="Next" [ngClass]="{ isAllowdToClick: currentPage == pageSize.length }">
+          (click)="getPageData(currentPage + 1, false, $event, searchTxt)" href="#" aria-label="Next" [ngClass]="{ isAllowdToClick: currentPage == pageSize.length }">
           <span aria-hidden="true">&raquo;</span>
         </a>
       </li>
