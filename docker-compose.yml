@@ -124,6 +124,8 @@ services:
       context: ./gateway-service # Path to your api-gateway project directory
       dockerfile: Dockerfile
     container_name: api_gateway
+    env_file:
+      - .env
     ports:
       - "8087:8087"
     environment:
@@ -163,6 +165,8 @@ services:
       context: ./auth-service
       dockerfile: Dockerfile 
     container_name: auth_service
+    env_file:
+      - .env
     ports:
       - "8083:8083" 
     environment:
