@@ -8,6 +8,7 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { MatBadgeModule} from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
 import { WebsocketService } from './home/service/websocket.service';
+import { AuthService } from './common/service/auth/auth.service';
 @Component({
   selector: 'app-root',
   imports: [ CommonModule, RouterLink, RouterOutlet, RouterLinkActive, MatTooltipModule, MatBadgeModule, MatIconModule, TranslatePipe ],
@@ -26,12 +27,11 @@ export class AppComponent {
 
   constructor(
     private router: Router, private location: Location, private commonService: CommonService, private popupService: PopupService,
-    private translate: TranslateService, private webSocketService: WebsocketService
-
+    private translate: TranslateService, private webSocketService: WebsocketService,
+    private authService: AuthService
   ) {
     this.currentRoute = "";
     this.currentRoute = this.location.path();
-    this.isLoggedUserIn = this.commonService.isLoggedIn;
   }
 
   ngOnInit(): void {
@@ -49,7 +49,7 @@ export class AppComponent {
   }
 
   isLoggedIn(): boolean {
-    return this.commonService.isLoggedIn;
+    return this.authService.isLoggedIn;
   }
 
   openAccountPopup(): void {
@@ -63,9 +63,10 @@ export class AppComponent {
       isLogoutDialog: true
     }
     this.popupService.openDialog(data, '30rem', 'custom-dialog-container', () => {
-      this.commonService.isLoggedIn = false;
-      this.commonService.loggedInUser = {};
-      this.router.navigate(['/login']);
+      // this.commonService.isLoggedIn = false;
+      // this.commonService.loggedInUser = {};
+      // this.router.navigate(['/login']);
+      this.authService.logout();
     });
   }
 

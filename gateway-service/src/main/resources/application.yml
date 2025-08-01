@@ -4,6 +4,11 @@ server:
 spring:
   main:
     web-application-type: reactive
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          secret-key: ${JWT_SECRET}
   application:
     name: api-gateway
   cloud:
@@ -40,11 +45,19 @@ spring:
             # Apply the same robust pattern for consistency:
             # /api/ws-booking/info -> /ws-booking/info
 #            - RewritePath=/ws-booking/(?<remaining>.*), /${remaining}
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/auth2/**
+        - id: auth_api_status_route
+          uri: lb://auth-service # Route to your auth-service
+          predicates:
+            - Path=/api/auth/status # Specific path for auth status check
 
 eureka:
   client:
     service-url:
-      defaultZone: http://eureka-server:8761/eureka
+      defaultZone: http://eureka-server:8761/eureka #http://eureka-server:8761/eureka
 
 logging:
   level:

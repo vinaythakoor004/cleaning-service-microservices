@@ -6,9 +6,9 @@ spring:
     name: booking-service
 
   datasource:
-    url: jdbc:postgresql://postgres:5432/booking_db
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://postgres:5432/booking_db #jdbc:postgresql://postgres:5432/booking_db
+    username: ${DB_USERNAME} #for docker
+    password: ${DB_PASSWORD} #for docker
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -35,7 +35,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://eureka-server:8761/eureka
+      defaultZone: http://eureka-server:8761/eureka #http://eureka-server:8761/eureka
 logging:
   level:
     com.cleaningApp.booking_service: DEBUG

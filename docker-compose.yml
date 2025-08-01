@@ -124,6 +124,8 @@ services:
       context: ./gateway-service # Path to your api-gateway project directory
       dockerfile: Dockerfile
     container_name: api_gateway
+    env_file:
+      - .env
     ports:
       - "8087:8087"
     environment:
@@ -147,12 +149,41 @@ services:
     container_name: frontend_app
     ports:
       - "4200:4200"
+    deploy:
+      resources:
+        limits:
+          cpus: '2' # Allocate 2 CPU cores (adjust as needed)
+          memory: 2G # Allocate 2 GB of RAM (adjust as needed)
     networks:
       - cleaning_app_network
     depends_on:
       api-gateway:
         condition: service_started # Frontend needs gateway to be up
 
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile 
+    container_name: auth_service
+    env_file:
+      - .env
+    ports:
+      - "8083:8083" 
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka # Point to Eureka server
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/booking_db
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      # If Kafka is used in auth-service:
+      # SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      eureka-server:
+        condition: service_healthy # Auth-service depends on Eureka
+      postgres:
+        condition: service_healthy # Auth-service depends on Postgres
+    networks:
+      - cleaning_app_network
 volumes:
   postgres_data:
   kafka_data:

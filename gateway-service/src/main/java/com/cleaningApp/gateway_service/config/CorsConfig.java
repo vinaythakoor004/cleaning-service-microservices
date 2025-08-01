@@ -15,7 +15,7 @@ public class CorsConfig {
     public CorsWebFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(Arrays.asList("http://frontend:4200", "http://localhost:4200"));
+        config.setAllowedOrigins(Arrays.asList("http://frontend-app:4200", "http://localhost:4200"));
 
         config.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization", "Accept", "X-Requested-With")); // Include common headers
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Include OPTIONS for preflight requests
