@@ -1,9 +1,11 @@
 # Java
 **/target/
 *.log
+*.gz
 
 # Node
 **/node_modules/
+package-lock.json
 
 # IDEs
 .idea/
@@ -15,7 +17,14 @@
 
 # OS
 .DS_Store
+.env
+
 
 # Logs
 *.log
 logs/
+
+# Maven Wrapper files
+mvnw
+mvnw.cmd
+maven-wrapper.properties
