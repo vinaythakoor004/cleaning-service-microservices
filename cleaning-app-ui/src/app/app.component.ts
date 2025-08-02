@@ -38,10 +38,15 @@ export class AppComponent {
      this.webSocketService.onMessage().subscribe((msg: string) => {
       this.notifications.unshift(msg); // Add new message on top
     });
+    this.authService.authenticatedUser$.subscribe({
+      next: (resp) => {
+        this.loginUserDetails = resp;
+      }
+    })
   }
 
   ngDoCheck() {
-    this.loginUserDetails = this.commonService.loggedInUser;
+    // this.loginUserDetails = this.commonService.loggedInUser;
   }
 
   navigatePage(e: any, routeName: any) {

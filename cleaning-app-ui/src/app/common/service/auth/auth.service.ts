@@ -1,13 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, timer } from 'rxjs';
-import { tap, catchError, first, shareReplay, switchMap } from 'rxjs/operators';
+import { tap, catchError, first, shareReplay, switchMap, delay } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 interface AuthStatusResponse {
   isAuthenticated: boolean;
-  email: string | null;
+  user: user | null;
   message: string;
+}
+
+interface user {
+  email: string | "";
+  googleId: string;
+  id: number;
+  name: string;
+  pictureUrl: string
 }
 
 @Injectable({
@@ -15,8 +23,12 @@ interface AuthStatusResponse {
 })
 export class AuthService {
   private _isAuthenticated = new BehaviorSubject<boolean>(false);
+  private _authenticatedUser = new BehaviorSubject<user | null>(null);
   isAuthenticated$ = this._isAuthenticated.asObservable();
-  userEmail: string | null = null;
+  authenticatedUser$ = this._authenticatedUser.asObservable();
+
+  // userEmail: string = "";
+  user: user | null = null;
 
   // Cache for the last authentication check result (Observable)
   private authCheckObservable: Observable<AuthStatusResponse> | null = null;
@@ -45,27 +57,30 @@ export class AuthService {
     if (!forceRefresh && (now - this.lastCheckTime < this.CACHE_DURATION_MS) && this._isAuthenticated.value !== null) {
       return of({
         isAuthenticated: this._isAuthenticated.value,
-        email: this.userEmail,
+        user: this.user,
         message: 'Cached status'
       });
     }
 
-    this.authCheckObservable = this.http.get<AuthStatusResponse>('/api/auth/status').pipe(
-      tap(response => {
-        this._isAuthenticated.next(response.isAuthenticated);
-        this.userEmail = response.email;
-        this.lastCheckTime = Date.now(); // Update last check time on success
-      }),
-      catchError(error => {
-        this._isAuthenticated.next(false);
-        this.userEmail = null;
-        this.lastCheckTime = 0; // Reset time on error to force re-check
-        return of({ isAuthenticated: false, email: null, message: 'Error checking status' });
-      }),
-      // shareReplay(1) ensures that if multiple subscribers subscribe, the HTTP call is made only once
-      // and subsequent subscribers receive the last emitted value.
-      shareReplay(1)
-    );
+    // Use the delay operator to introduce a 500ms delay before the HTTP request
+    this.authCheckObservable = of(null).pipe(
+    // delay(500),
+    switchMap(() => this.http.get<AuthStatusResponse>('/api/auth/status')), // <-- Send the HTTP request after the delay
+    tap(response => {
+      this._isAuthenticated.next(response.isAuthenticated);
+      this._authenticatedUser.next(response.user);
+      this.user = response.user;
+      this.lastCheckTime = Date.now();
+    }),
+    catchError(error => {
+      this._isAuthenticated.next(false);
+      this._authenticatedUser.next(null);
+      this.user = null;
+      this.lastCheckTime = 0;
+      return of({ isAuthenticated: false, user: null, message: 'Error checking status' });
+    }),
+    shareReplay(1)
+  );
 
     return this.authCheckObservable;
   }
@@ -74,14 +89,16 @@ export class AuthService {
     this.http.get<string>('/api/auth/logout').pipe(
       tap(() => {
         this._isAuthenticated.next(false);
-        this.userEmail = null;
+        this._authenticatedUser.next(null);
+        this.user = null;
         this.lastCheckTime = 0; // Invalidate cache
         this.authCheckObservable = null; // Clear any pending check
         this.router.navigate(['/login']);
       }),
       catchError(error => {
         this._isAuthenticated.next(false);
-        this.userEmail = null;
+        this._authenticatedUser.next(null);
+        this.user = null;
         this.lastCheckTime = 0;
         this.authCheckObservable = null;
         this.router.navigate(['/login']);
