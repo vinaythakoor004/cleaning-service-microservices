@@ -59,10 +59,10 @@
         <div class="popover-arrow"></div>
     </div>
     <button class="closeBtn" popovertarget="mydiv" popovertargetaction="hide"><img class="img-responsive closeImg" src="assets/img/close.svg"></button><br/>
-    <div class="p-2">
-        <span class="openSansRegular">Name: {{ loginUserDetails.name }}</span><br/>
-        <span class="openSansRegular">Email: {{ loginUserDetails.email }}</span><br/>
-        <span class="openSansRegular">Role: {{ loginUserDetails.role }}</span><br/>
+    <div *ngIf="loginUserDetails" class="p-2">
+        <span class="openSansRegular">Name: {{ loginUserDetails?.name }}</span><br/>
+        <span class="openSansRegular">Email: {{ loginUserDetails?.email }}</span><br/>
+        <!-- <span class="openSansRegular">Role: {{ loginUserDetails.role }}</span><br/> -->
         <button class="closeBtn" popovertarget="mydiv" popovertargetaction="hide"><img class="img-responsive mt-2 logoutBtn" title="Logout" src="assets/img/logout.svg" (click)="logoutUser()">
         </button><br/>
     </div>

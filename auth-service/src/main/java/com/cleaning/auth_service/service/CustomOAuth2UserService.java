@@ -29,12 +29,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         logger.debug("Found user: " + oAuth2User.getName());
         String email = oAuth2User.getAttribute("email");
         String name = oAuth2User.getAttribute("name");
-
+        String googleId = oAuth2User.getAttribute("sub");
+        
         // Save or update user
         Users user = userRepository.findByEmail(email).orElseGet(() -> {
             Users newUser = new Users();
             newUser.setEmail(email);
             newUser.setName(name);
+            newUser.setName(googleId);
             return userRepository.save(newUser);
         });
 

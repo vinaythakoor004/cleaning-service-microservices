@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -46,6 +47,7 @@ public class GatewaySecurityConfig {
      * Extracts JWT from `jwt` cookie and injects into Authorization header
      */
     @Bean
+    @Order(-1)
     public WebFilter jwtCookieFilter() {
         return (ServerWebExchange exchange, WebFilterChain chain) -> {
             HttpCookie cookie = exchange.getRequest().getCookies().getFirst(COOKIE_NAME);
@@ -71,7 +73,7 @@ public class GatewaySecurityConfig {
             // Add your custom WebFilter before Spring Security's authentication filters
             .addFilterAt(jwtCookieFilter(), SecurityWebFiltersOrder.AUTHENTICATION)
             .authorizeExchange(exchange -> exchange
-                .pathMatchers("/auth2/**", "/api/auth/status", "/api/auth/logout").permitAll()
+                .pathMatchers("/auth2/**", "/api/auth/logout").permitAll()
                 .anyExchange().authenticated()
             )
             .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))

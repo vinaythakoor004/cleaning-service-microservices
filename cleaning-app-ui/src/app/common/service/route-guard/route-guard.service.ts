@@ -16,6 +16,7 @@ export class RouteGuardService implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean> {
     // The guard calls checkAuthStatus; the service internally decides if it needs a BE call or uses cache.
+
     return this.authService.checkAuthStatus().pipe(
       map(response => {
         if (response.isAuthenticated) {

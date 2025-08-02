@@ -11,7 +11,7 @@ Built using **Spring Boot 3.3.2**, **Angular**, **Kafka**, and **PostgreSQL**, i
 - ⚙️ **Angular** 17+, Javascript, Typescript, Rxjs
 - 🎨 HTML and CSS, Angular material
 - 🌍 API Integration with Gateway (`/api/*`)
-- 🔐 Supports JWT/Auth integration (future)
+- 🔐 Supports JWT/Auth integration
 
 ### 🧠 Backend (Microservices)
 - ☕ **Java 17**
@@ -28,11 +28,14 @@ Built using **Spring Boot 3.3.2**, **Angular**, **Kafka**, and **PostgreSQL**, i
 
 ## 🚀 Features
 
+- 🚀 Features
 - 📦 Modular microservice design
 - 🧾 Booking management service
 - 📣 Notification handling via Kafka
-- 🌐 API Gateway routing
+- 🔑 Auth service handles authentication
+- 🌐 API Gateway: Handles routing and provides centralized security by validating JWTs from cookies.
 - 🔍 Eureka service discovery
 - 📊 PostgreSQL as primary DB
 - 🧑‍💻 Angular frontend consuming REST APIs
-
+- 🔐 OAuth2 Authentication: Secure user login via a third-party provider (e.g., Google).
+- 🔑 JWT-based Security: Generates and validates JSON Web Tokens to secure internal and external communication.
