@@ -17,12 +17,14 @@ public class BookingService {
 
     private final BookingRepository bookingRepository;
     private final StreamBridge streamBridge; // Declare StreamBridge
-
+    private final EmailService emailService;
+    
     // Constructor injection for BookingRepository and StreamBridge
     @Autowired
-    public BookingService(BookingRepository bookingRepository, StreamBridge streamBridge) {
+    public BookingService(BookingRepository bookingRepository, EmailService emailService, StreamBridge streamBridge) {
         this.bookingRepository = bookingRepository;
         this.streamBridge = streamBridge; // Initialize StreamBridge
+        this.emailService = emailService;
     }
 
     // Save a single booking
@@ -30,6 +32,12 @@ public class BookingService {
         Booking saved = bookingRepository.save(booking);
         // Publish a "booking created" event to Kafka
         streamBridge.send("bookingEvents-out-0", saved); // "bookingEvents-out-0" is the binding name from application.yml
+        emailService.sendBookingConfirmation(
+            booking.getEmail(),
+            "Booking Confirmed",
+            "Hi " + booking.getFirstName() + booking.getLastName() + ", your booking is confirmed."
+        );
+        
         return saved;
     }
 
