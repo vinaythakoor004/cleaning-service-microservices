@@ -30,6 +30,7 @@ Built using **Spring Boot 3.3.2**, **Angular**, **Kafka**, and **PostgreSQL**, i
 
 - 🚀 Features
 - 📦 Modular microservice design
+- ⚙️ Frontend service hanldes UI 
 - 🧾 Booking management service
 - 📣 Notification handling via Kafka
 - 🔑 Auth service handles authentication

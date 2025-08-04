@@ -1,6 +1,5 @@
 package com.cleaning.auth_service.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import com.cleaning.auth_service.entity.Users;
@@ -9,7 +8,6 @@ import com.cleaning.auth_service.repository.UserRepository;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;

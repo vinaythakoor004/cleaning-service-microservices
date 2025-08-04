@@ -17,14 +17,9 @@ public class BookingNotificationService {
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
-    // Define a bean that consumes Booking objects from Kafka
-    // The bean name (e.g., "handleBookingEvent") will be linked to your Kafka binding
     @Bean
     public Consumer<Booking> handleBookingEvent() {
         return booking -> {
-            // You can add logic here to differentiate between new and updated bookings
-            // For example, by checking a status field in the Booking object or having different topics/event types
-
             String message = "Booking update for " + booking.getFirstName() + " " + booking.getLastName() +
                              " at " + this.getFormatedDate(booking.getBookingDetails().getBookingDateTime()) +
                              ". Current Status: " + (booking.getId() == null ? "New Booking" : "Updated Booking"); // Example status based on ID presence

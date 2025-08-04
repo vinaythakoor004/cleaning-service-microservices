@@ -41,7 +41,7 @@
           <td>{{item.bookingDetails.bookingDateTime | date : "MMM d, y, h:mm a" }}</td>
           <td class="countryCol">{{item.country}}
             <div>
-              <img *ngIf="loggedInUser.role == 'Admin'" src="assets/img/edit.svg" (click)="editRow(item)" alt="arrow_back" class="img-fluid deleteImg" /><img *ngIf="loggedInUser.role == 'Admin'" src="assets/img/delete.svg" (click)="deleteRow(item)" alt="arrow_back" class="img-fluid deleteImg" />
+              <img src="assets/img/edit.svg" (click)="editRow(item)" alt="arrow_back" class="img-fluid deleteImg" /><img src="assets/img/delete.svg" (click)="deleteRow(item)" alt="arrow_back" class="img-fluid deleteImg" />
             </div>
           </td>
         </tr>
