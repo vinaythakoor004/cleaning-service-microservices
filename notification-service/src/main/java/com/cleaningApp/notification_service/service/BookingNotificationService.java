@@ -1,6 +1,8 @@
 package com.cleaningApp.notification_service.service;
 
 import com.cleaningApp.notification_service.entity.Booking; // Ensure this import points to your Booking entity in notification-service
+import com.cleaningApp.notification_service.entity.BookingResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean; // Import Bean annotation
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -18,11 +20,11 @@ public class BookingNotificationService {
     private SimpMessagingTemplate messagingTemplate;
 
     @Bean
-    public Consumer<Booking> handleBookingEvent() {
-        return booking -> {
-            String message = "Booking update for " + booking.getFirstName() + " " + booking.getLastName() +
-                             " at " + this.getFormatedDate(booking.getBookingDetails().getBookingDateTime()) +
-                             ". Current Status: " + (booking.getId() == null ? "New Booking" : "Updated Booking"); // Example status based on ID presence
+    public Consumer<BookingResponse> handleBookingEvent() {
+        return bookingResponse -> {
+            String message = "Booking update for " + bookingResponse.getBooking().getFirstName() + " " + bookingResponse.getBooking().getLastName() +
+                             " at " + this.getFormatedDate(bookingResponse.getBooking().getBookingDetails().getBookingDateTime()) +
+                             ". Current Status: " + (bookingResponse.getStatus());
 
             messagingTemplate.convertAndSend("/topic/booking", message);
             System.out.println("Sent WebSocket notification: " + message);

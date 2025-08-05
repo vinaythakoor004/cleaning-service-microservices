@@ -16,7 +16,7 @@ public interface BookingRepository extends JpaRepository<com.cleaningApp.booking
     // count()
     // findById(Long id)
 
-    // 🔍 Example of custom query method (optional)
+    // Example of custom query method (optional)
     // List<Booking> findByFirstNameIgnoreCase(String firstName);
 	
 	@Query(

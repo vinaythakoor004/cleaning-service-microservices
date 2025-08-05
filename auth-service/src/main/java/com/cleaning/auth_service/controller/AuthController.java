@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cleaning.auth_service.entity.AuthStatusResponse;
 import com.cleaning.auth_service.entity.Users;
 import com.cleaning.auth_service.jwt.JwtUtil;
-import com.cleaning.auth_service.repository.UserRepository;
 import com.cleaning.auth_service.service.UserService;
 
 import jakarta.servlet.http.Cookie;
@@ -26,7 +25,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class AuthController {
 
  @Autowired
- private JwtUtil jwtUtil;
+ private final JwtUtil jwtUtil;
 
  private final UserService userService;
  
