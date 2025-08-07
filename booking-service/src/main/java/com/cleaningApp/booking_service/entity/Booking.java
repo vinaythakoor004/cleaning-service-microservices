@@ -1,8 +1,6 @@
 package com.cleaningApp.booking_service.entity;
 
 import java.time.LocalDateTime;
-
-
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Version;
 
 @Entity
 public class Booking {
@@ -17,6 +16,9 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Version //Database-Level Concurrency Control
+    private Long version;
+    
     private String firstName;
     private String lastName;
     private String email;
