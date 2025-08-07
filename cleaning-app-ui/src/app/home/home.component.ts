@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { bookingData } from './model/bookingData';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { finalize, Subscription } from 'rxjs';
 import { PopupService } from '../common/service/popup/popup.service';
 import { AlertService } from '../common/service/alert/alert.service';
 import { CommonService } from '../common/service/common/common.service';
@@ -15,6 +15,7 @@ import { BubbleChartComponent } from './bubble-chart/bubble-chart.component';
 import { WebsocketService } from './service/websocket.service';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { FormsModule } from '@angular/forms';
+import { LoaderService } from '../common/service/loader/loader.service';
 
 @Component({
   selector: 'app-home',
@@ -34,7 +35,6 @@ export class HomeComponent implements OnInit {
   private readonly router = inject(Router);
   subscriptions: Array<Subscription> = [];
   loggedInUser: any = {};
-  public isLoading: boolean = true;
   public errorMessage: string | null = null;
   selectedOption: number = 10;
   options = [
@@ -46,6 +46,7 @@ export class HomeComponent implements OnInit {
   constructor(private homeService: HomeService, private popupService: PopupService,
     private alertService: AlertService,
     private ws: WebsocketService,
+    private loaderService: LoaderService,
     private commonService: CommonService) { }
 
   ngOnInit(): void {
@@ -59,12 +60,15 @@ export class HomeComponent implements OnInit {
   }
 
   getServiceData(currentPage: number, pageSize: number, searchTxt?: string): void {
-    this.isLoading = true;
+    this.loaderService.show();
     this.errorMessage = null;
-    this.homeService.getServiceData(currentPage, pageSize, searchTxt || "").subscribe({
+    this.homeService.getServiceData(currentPage, pageSize, searchTxt || "")
+    .pipe(finalize(() => {
+          this.loaderService.hide();
+        })
+        ).subscribe({
       next: (data: any) => {
         if (data?.bookings) {
-          this.isLoading = false;
           this.allBookingData = data.bookings;
           this.bookingData = data.bookings;
           this.totalCount = data.total
@@ -80,7 +84,6 @@ export class HomeComponent implements OnInit {
         this.getPageSize(this.totalCount);
         // this.getPageData(currentPage);
         this.errorMessage = 'Failed to load booking data. Please try again later.';
-        this.isLoading = false;
       }
     }
     )

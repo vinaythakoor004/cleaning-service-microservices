@@ -17,6 +17,8 @@ import { serviceDetails } from '../model/serviceDetails';
 import { bookingData } from '../../../home/model/bookingData';
 import { AlertService } from '../../../common/service/alert/alert.service';
 import { PopupService } from '../../../common/service/popup/popup.service';
+import { LoaderService } from '../../../common/service/loader/loader.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-book-appointment',
@@ -68,7 +70,7 @@ export class BookAppointmentComponent {
   );
   allBookingData: Array<bookingData> = [];
 
-  constructor(private fb: FormBuilder, private alertService: AlertService, private popupService: PopupService) {
+  constructor(private fb: FormBuilder, private loaderService: LoaderService, private alertService: AlertService, private popupService: PopupService) {
     this.appointmentForm = this.fb.group({
       selectedDate: ['', Validators.required],
       selectedSlot: ['', Validators.required],
@@ -183,6 +185,7 @@ export class BookAppointmentComponent {
   }
 
   saveBooking(appointmentData: bookingData, id?: string): void {
+    this.loaderService.show();
     if (this.homeService.isEdit && id) {
       this.updateBookingData(appointmentData, id);
     } else {
@@ -191,7 +194,12 @@ export class BookAppointmentComponent {
   }
 
   postBooking(appointmentData: bookingData): void {
-    this.homeService.postBooking(appointmentData).subscribe({
+    this.homeService.postBooking(appointmentData)
+    .pipe(
+      finalize(() => {
+      this.loaderService.hide();
+    })
+    ).subscribe({
       next: (data: any) => {
         if (data) {
           this.alertService.openSnackBar('Appointment booked successfully!');
@@ -206,7 +214,12 @@ export class BookAppointmentComponent {
   }
 
   updateBookingData(appointmentData: bookingData, id: string): void {
-    this.homeService.updateBooking(appointmentData, id).subscribe({
+    this.homeService.updateBooking(appointmentData, id)
+    .pipe(
+      finalize(() => {
+      this.loaderService.hide();
+    })
+    ).subscribe({
       next: (data: any) => {
         if (data) {
           this.alertService.openSnackBar('Appointment updated successfully!');

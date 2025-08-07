@@ -9,9 +9,10 @@ import { MatBadgeModule} from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
 import { WebsocketService } from './home/service/websocket.service';
 import { AuthService } from './common/service/auth/auth.service';
+import { LoaderComponent } from './common/component/loader/loader.component';
 @Component({
   selector: 'app-root',
-  imports: [ CommonModule, RouterLink, RouterOutlet, RouterLinkActive, MatTooltipModule, MatBadgeModule, MatIconModule, TranslatePipe ],
+  imports: [ CommonModule, RouterLink, LoaderComponent, RouterOutlet, RouterLinkActive, MatTooltipModule, MatBadgeModule, MatIconModule, TranslatePipe ],
   providers: [ ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

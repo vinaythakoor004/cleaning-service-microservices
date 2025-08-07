@@ -16,7 +16,6 @@ export class LoginComponent {
   loginForm: FormGroup;
   userData: any = [];
   // isLoginValid: boolean = true;
-  public isLoading: boolean = true;
 
   constructor(private fb: FormBuilder,
     private commonService: CommonService, private router: Router

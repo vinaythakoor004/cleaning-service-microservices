@@ -20,10 +20,11 @@
             (click)="navigatePage($event, 'login')">Log In</a>
     </header>
     <main class="main-content">
+        <app-loader></app-loader>
         <router-outlet />
     </main>
 
-    <footer #navbar class="bd-footer footer nav navbarClass bg-dark p-0 mt-2">
+    <footer *ngIf="isLoggedIn()" #navbar class="bd-footer footer nav navbarClass bg-dark p-0 mt-2">
         <div class="row w-100 m-auto mt-3 footerClass">
             <div class="col-3">
                 <span class="openSansRegular fs-4">The cleanic</span>
